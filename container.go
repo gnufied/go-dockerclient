@@ -872,7 +872,7 @@ func (c *Client) Stats(opts StatsOptions) (retErr error) {
 		err := decoder.Decode(stats)
 		if err != io.EOF {
 			if err != nil {
-				fmt.Println("Some other error")
+				fmt.Println(err)
 				return err
 			}
 			opts.Stats <- stats
