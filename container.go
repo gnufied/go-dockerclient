@@ -870,14 +870,18 @@ func (c *Client) Stats(opts StatsOptions) (retErr error) {
 	stats := new(Stats)
 	for {
 		err := decoder.Decode(stats)
-		if err == io.EOF {
+		if err != io.EOF {
+			if err != nil {
+				fmt.Println("Some other error")
+				return err
+			}
+			opts.Stats <- stats
+			stats = new(Stats)
+		} else {
 			fmt.Println("Done with loop")
 			break
 		}
-		if err != nil {
-			fmt.Println("Some other error")
-			return err
-		}
+
 	}
 	return nil
 }
